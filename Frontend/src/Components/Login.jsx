@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContex } from '../Contexts/Usercontex';
-import { API_URL } from '../Config/config';
+import { API_URL } from '../Config/Config';
 
 const Login = () => {
 

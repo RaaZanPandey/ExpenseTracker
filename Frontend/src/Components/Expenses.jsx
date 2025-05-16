@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React from 'react'
-import { API_URL } from '../Config/config'
+import { API_URL } from '../Config/Config';
 import { useState, useEffect, useContext, useRef } from 'react'
 import { UserContex } from '../Contexts/Usercontex'
 

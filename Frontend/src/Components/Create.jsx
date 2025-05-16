@@ -1,5 +1,5 @@
 import React from 'react'
-import { API_URL } from '../Config/config';
+import { API_URL } from '../Config/Config';
 import { configs } from 'eslint-plugin-react-refresh';
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
