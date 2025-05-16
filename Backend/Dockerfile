@@ -7,7 +7,7 @@ RUN mvn clean package -DskipTests
 
 
 # Stage 2: Run the app
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/Expensestracker-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
