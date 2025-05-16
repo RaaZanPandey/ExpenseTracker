@@ -1,2 +1,2 @@
-// export const  API_URL = "http://localhost:8080";
- export const  API_URL = "https://expensestracker-w751.onrender.com";
+export const API_URL = process.env.REACT_APP_BASE_API_URL;
+               //EXTRACTING API URL FROM .ENV
