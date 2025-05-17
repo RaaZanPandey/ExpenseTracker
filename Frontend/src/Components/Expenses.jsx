@@ -31,6 +31,7 @@ const Expenses = () => {
             getAllExpenses()
 
         } catch (error) {
+            console.log("Unexpected error occure ")
             console.log(error);
         }
     }
