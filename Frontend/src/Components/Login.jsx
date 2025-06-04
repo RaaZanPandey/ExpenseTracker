@@ -1,6 +1,6 @@
 import React, { use } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import axios from 'axios';
 import { UserContex } from '../Contexts/Usercontex';
 import { API_URL } from '../Config/Config';
@@ -11,7 +11,8 @@ const Login = () => {
     const { username, setUsername } = useContext(UserContex);
     const navigate = useNavigate();
     const [form, setForm] = useState({ email: "", password: "" })
-
+    const ref = useRef();
+    const fetch = useRef();
     function HandleChange(e) {
         setForm((prevDate => ({
             ...prevDate,
@@ -20,15 +21,25 @@ const Login = () => {
     }
 
     async function LogIn(user) {
+        const originalContaion = ref.current.innerHTML;
         try {
+            if (ref.current) {
+                ref.current.style.opacity = 0.5;
+                ref.current.innerHTML = "<strong><h1>Fetching data...</h1></strong>"
+            }
+
             const response = await axios.post(`${API_URL}/user/login`, user)
             const data = await response.data;
-
             setUsername(data.user.username);
             navigate(`/home?username=${data.user.username}`);
- 
+
 
         } catch (error) {
+            if (ref.current) {
+                ref.current.style.opacity = 1;
+                ref.current.innerHTML = originalContaion;
+            }
+            
             console.log(error)
             if (error.response) {
                 if (error.response.status === 404) {
@@ -62,7 +73,7 @@ const Login = () => {
     return (
         <div className='create p-10 h-full w-full flex justify-center items-center bg-[url(./assets/backgroundskill.jpg)] bg-cover bg-center'>
 
-            <div className='bg-[rgba(255,255,255,0.4)]  h-150 w-100 rounded-lg p-8 hover:scale-105 transition-transform duration-500 '>
+            <div ref={ref} className='bg-[rgba(255,255,255,0.4)]  h-150 w-100 rounded-lg p-8 hover:scale-105 transition-transform duration-500 '>
 
                 <div className='flex justify-center'>
                     <span className='flex flex-row justify-center items-center h-20 w-70 '><span className='flex flex-row'>
@@ -72,6 +83,7 @@ const Login = () => {
                         </span></span>
                 </div>
 
+
                 <div className='font-bold text-3xl mb-15 flex justify-center'><h1>Login</h1></div>
                 <form className='w-full flex flex-col gap-2.5'>
                     <input className='border-2 rounded-lg p-2' type='email' placeholder='email' name='email' value={form.email} onChange={HandleChange}></input>
@@ -80,6 +92,8 @@ const Login = () => {
                     <div className='w-full py-10 px-2 flex justify-center'>
                         <input className='bg-blue-500 border-2 border-green-900 rounded-lg px-2 py-1 font-medium text-2xl bg-gradient-to-b from-zinc-200 to-zinc-500' onClick={HandleClick} type='button' value={"Login"}></input>
                     </div>
+
+
                     <div className='flex justify-center'>
                         <span className='text-medium text-1.8xl'>Dont't have account ?  <span onClick={() => { navigate("/") }} className='text-bold text-blue-700'>Sign in</span></span>
                     </div>

@@ -7,6 +7,8 @@ import { data } from 'react-router-dom'
 
 const Income = () => {
 
+  const container = useRef();
+  const left = useRef();
   const ref = useRef();
   const { username, setIncome } = useContext(UserContex);
   const [form, setFrom] = useState({ id: "", title: "", ammount: "", date: "", description: "" })
@@ -72,7 +74,7 @@ const Income = () => {
   async function HandleDelete(data) {
     alert("Do you really want to delete this ??")
     try {
-      const response = axios.delete(`${API_URL}/income`, {
+      const response = axios.delete(`${API_URL}/income/${username}`, {
         data: data
       });
       getAllIncome();
@@ -103,86 +105,76 @@ const Income = () => {
       console.log(error);
     }
     setFrom({ title: "", ammount: "", description: "", data: "" });
-     ref.current.classList.remove("block");
+    ref.current.classList.remove("block");
     ref.current.classList.add("hidden");
   }
 
-  
+
   return (
-    <div className='h-[90%] w-full bg-zinc-700 text-white p-10 flex flex-col gap-10 justify-center items-center bg-gradient-to-b from-indigo-400 to-green-400'>
+    <div className='h-auto md:h-[90vh] w-full bg-gray-900 text-white p-10 flex flex-col gap-10 justify-center items-center bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-800'>
       <div className='h-10 w-300 flex flrx-row gap-70'>
-        <span className='font-medium m-1 text-2xl bg-gradient-to-r from-yellow-800 to-blue-800 text-transparent bg-clip-text'><h1>Hii, <strong>{username}</strong></h1></span>
-        <span className='font-medium m-1 text-2xl bg-gradient-to-r from-red-800 to-purple-800 text-transparent bg-clip-text'><h1>Total Income : <strong>{count}</strong></h1></span>
+        <span className='font-medium m-1 text-2xl bg-gradient-to-r from-cyan-300 to-blue-500 text-transparent bg-clip-text'>
+          <h1>Hii, <strong>{username}</strong></h1>
+        </span>
+        <span className='font-medium m-1 text-2xl bg-gradient-to-r from-cyan-300 to-teal-400 text-transparent bg-clip-text'>
+          <h1 >Total Income : <strong>{count}</strong></h1>
+        </span>
       </div>
 
-      <div className=' flex flex-row gap-10 justify-center items-center'>
-        <div className='w-110 h-150 border-2 border-blue-600 bg-gradient-to-b from-indigo-400 to-green-400'>
-          <div className='flex flex-col justify-center items-center p-5'>
-            <span className='font-medium mb-5 text-2xl'><h1>Add new Income</h1></span>
+      <div ref={container} className='flex flex-col h-full w-full md:w-[80%] md:flex-row gap-10 justify-center items-center'>
+        <div className='w-full md:w-110 h-full md:h-150 border-2 border-cyan-500 bg-gradient-to-b from-gray-800 to-gray-700 rounded-xl shadow-md slide-from-left'>
+          <div className='flex flex-col justify-center items-center p-5 '>
+            <span className='font-medium mb-5 text-2xl text-cyan-300'><h1>Add new Income</h1></span>
             <form className='w-full flex flex-col gap-2.5'>
-              <input className='border-2 rounded-lg  text-white p-2' type='text' placeholder='Enter title' name='title' value={form.title} onChange={HandelChange}></input>
-              <input className='border-2 rounded-lg p-2  text-white' type='number' placeholder='Enter ammount' name='ammount' value={form.ammount} onChange={HandelChange}></input>
-              <input className='border-2 rounded-lg p-2  text-white' type='date' min={"2020-01-01"} max={"2040-01-01"} placeholder='Enter date' name='date' value={form.date} onChange={HandelChange}></input>
-
-              <textarea name="description" placeholder="Enter description" className="border-2 rounded-lg p-2 w-full h-32 text-white" value={form.description} onChange={HandelChange} />
-              <input className='mt-6 bg-blue-500 border-2 border-green-900 rounded-lg px-2 py-1 font-medium text-2xl bg-gradient-to-b from-indigo-400 to-green-400' type='button' value={"Save Income"} onClick={HandleClick}></input>
-              <input ref={ref} className='hidden mt-6 bg-blue-500 border-2 border-green-900 rounded-lg px-2 py-1 font-medium text-2xl bg-gradient-to-b from-indigo-400 to-green-400' type='button' value={"Update Expenses"} onClick={HandleUpdate}></input>
+              <input className='border-2 rounded-lg text-white p-2 bg-gray-800 placeholder-gray-400' type='text' placeholder='Enter title' name='title' value={form.title} onChange={HandelChange} />
+              <input className='border-2 rounded-lg p-2 text-white bg-gray-800 placeholder-gray-400' type='number' placeholder='Enter amount' name='ammount' value={form.ammount} onChange={HandelChange} />
+              <input className='border-2 rounded-lg p-2 text-white bg-gray-800 placeholder-gray-400' type='date' min={"2020-01-01"} max={"2040-01-01"} name='date' value={form.date} onChange={HandelChange} />
+              <textarea name="description" placeholder="Enter description" className="border-2 rounded-lg p-2 w-full h-32 text-white bg-gray-800 placeholder-gray-400" value={form.description} onChange={HandelChange} />
+              <input className='mt-6 bg-gradient-to-r from-teal-400 to-cyan-500 border-2 border-cyan-600 rounded-lg px-2 py-1 font-medium text-2xl text-gray-900' type='button' value={"Save Income"} onClick={HandleClick} />
+              <input ref={ref} className='hidden mt-6 bg-gradient-to-r from-cyan-400 to-blue-500 border-2 border-blue-600 rounded-lg px-2 py-1 font-medium text-2xl text-gray-900' type='button' value={"Update Expenses"} onClick={HandleUpdate} />
             </form>
           </div>
         </div>
 
-
-
-        <div className='w-200 h-150 border-2 border-blue-600 bg-gradient-to-b from-indigo-400 to-green-400 overflow-y-scroll thin-scrollbar'>
-          <div className='flex flex-col justify-center items-center py-5'>
-        
-            <span className='font-medium mb-5 text-2xl'><h1>All Income</h1></span>
-
-            <div className='w-full flex flex-col gap-3 '>
-              <div className='w-full flex flex-row justify-between  h-10 border-2 border-s-white font-medium text-1.5xl rounded-lg  p-2 bg-gradient-to-b from-indigo-400 to-green-400 text-black'>
+        <div className='w-full md:w-200 h-auto md:h-150 border-2 border-cyan-500 bg-gradient-to-b from-gray-800 to-gray-700 rounded-xl overflow-y-scroll thin-scrollbar shadow-md slide-from-right'>
+          <span className='font-medium mb-5 text-2xl text-cyan-300 h-10 flex justify-center items-center'><h1>All Income</h1></span>
+          <div className='flex flex-col justify-center items-center py-5 overflow-x-scroll thin-scrollbar'>
+    
+            <div className='w-auto md:w-full flex flex-col gap-3 md:ml-0 ml-75'>
+              <div className='w-full flex flex-row justify-between h-10 border-2 border-white font-medium text-1.5xl rounded-lg p-2 bg-gradient-to-r from-teal-400 to-cyan-500 text-gray-900'>
                 <span className='w-30 flex justify-center'><h1>Title</h1></span>
-                <span className='w-20 flex justify-center'><h1>ammount</h1></span>
+                <span className='w-20 flex justify-center'><h1>Amount</h1></span>
                 <span className='w-25 flex justify-center'><h1>Date</h1></span>
                 <span className='h-10 w-65 flex justify-center'><h1>Description</h1></span>
                 <span className='h-10 w-20 flex justify-center'><h1>Edit</h1></span>
               </div>
 
-
               {existincome.length > 0 ? (
                 existincome.map((e, index) => (
-                  <div key={index} className='flex flex-row justify-between w-full h-10 border-2 border-s-white text-1xl rounded-lg  text-white '>
+                  <div key={index} className='flex flex-row justify-between w-full h-10 border-2 border-white text-0.5xl md:text-1xl rounded-lg text-white bg-gray-800'>
                     <span className='w-30 flex justify-center items-center overflow-y-scroll thin-scrollbar'><p>{e.title}</p></span>
                     <span className='w-20 flex justify-center items-center'><p>{e.ammount}</p></span>
                     <span className='w-25 flex justify-center items-center'><p>{e.date}</p></span>
                     <span className='w-65 text-0.5xl font-light overflow-y-scroll thin-scrollbar'><p>{e.description}</p></span>
-                    <span className='w-20 text-0.5xl font-light flex flex-row gap-3'><span>
+                    <span className='w-20 text-0.5xl font-light flex flex-row gap-3'>
                       <button onClick={() => { HandleEdit(e) }}>
-                        <lord-icon
-                          src="https://cdn.lordicon.com/exymduqj.json"
-                          trigger="hover">
-                        </lord-icon>
+                        <lord-icon src="https://cdn.lordicon.com/exymduqj.json" trigger="hover"></lord-icon>
                       </button>
-                    </span >
                       <button onClick={() => { HandleDelete(e) }}>
-                        <lord-icon
-                          src="https://cdn.lordicon.com/hwjcdycb.json"
-                          trigger="hover">
-                        </lord-icon>
+                        <lord-icon src="https://cdn.lordicon.com/hwjcdycb.json" trigger="hover"></lord-icon>
                       </button>
                     </span>
                   </div>
                 ))
               ) : (
-                <div className='w-full mt-10 flex items-center justify-center font-bold text-3xl '><h1>No Income exist</h1></div>
-              )
-              }
-
+                <div className='w-full mt-10 flex items-center justify-center font-bold text-3xl text-cyan-300'><h1>No Income Exist</h1></div>
+              )}
             </div>
-            {/* <input className='mt-6 bg-blue-500 border-2 border-green-900 rounded-lg px-2 py-1 font-medium text-2xl bg-gradient-to-b from-indigo-400 to-green-400' type='button' value={"Get updated data"} onClick={getAllIncome}></input> */}
           </div>
         </div>
       </div>
     </div>
+
   )
 }
 

@@ -25,3 +25,36 @@ html, body #root{
   scrollbar-width: thin;
   scrollbar-color: rgba(150, 150, 150, 0.5) transparent;
 }
+
+
+/* App.css */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-from-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.slide-from-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
