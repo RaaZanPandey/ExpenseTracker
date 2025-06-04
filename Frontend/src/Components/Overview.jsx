@@ -7,9 +7,16 @@ const Overview = () => {
   const { username, income, expenses } = useContext(UserContex);
   const navigate = useNavigate();
   return (
+<<<<<<< HEAD
     <div className='h-[100vh] w-full bg-zinc-700 text-white bg-gradient-to-b from-indigo-400 to-green-400 px-15 py-10 flex flex-col gap-10'>
       <div className='mt-0'>
         <h1 className="text-3xl font-medium bg-gradient-to-b from-red-700 to-blue-600 bg-clip-text text-transparent">
+=======
+    <div className='h-[90vh] w-full bg-gradient-to-b from-gray-800 to-gray-700 text-white px-4 py-8 md:px-6 md:py-10 flex flex-col gap-8 md:gap-10 overflow-x-hidden thin-scrollbar'>
+
+      <div>
+        <h1 className="text-3xl sm:text-4xl font-semibold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent drop-shadow-lg text-center md:text-left">
+>>>>>>> 320607c (Adding Responsiveness)
           Welcome, {username}
         </h1>  </div>
       <div className=' w-[100%] '>
@@ -44,6 +51,14 @@ const Overview = () => {
   </div>
          
       </div>
+      <div className='h-auto w-full flex justify-center'>
+           <div className=" md:block text-xl md:text-2xl font-bold font-[cursive">
+              <span className="text-white">&lt;</span>
+              <span className="bg-gradient-to-r from-blue-500 to-cyan-400 text-transparent bg-clip-text">Expenses</span>
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">Tracker</span>
+              <span className="text-white">/&gt;</span>
+            </div> </div>
+
     </div>
   )
 }

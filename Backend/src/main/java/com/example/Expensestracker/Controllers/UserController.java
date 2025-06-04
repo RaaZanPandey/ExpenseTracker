@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Expensestracker.Logics.CustomUserDetailsService;
 import com.example.Expensestracker.Logics.UserLogic;
 import com.example.Expensestracker.Models.User;
 
@@ -29,6 +30,8 @@ public class UserController {
   @Autowired
   private UserLogic userLogic;
 
+  @Autowired
+  private CustomUserDetailsService userDetailsService;
 
   @GetMapping
   public List<User> GetAll() {
@@ -59,7 +62,7 @@ public class UserController {
 
   @PostMapping //THIS IS FOR CREATE NEW ACCOUNT
   public ResponseEntity<?> Create(@RequestBody User user) {
-    userLogic.CreateUser(user);
+    userDetailsService.CreateUser(user.getUsername(), user.getPassword(), user.getEmail());
     return ResponseEntity.ok("SignUp Succesfully");
   }
 
