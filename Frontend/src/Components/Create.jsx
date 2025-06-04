@@ -1,7 +1,7 @@
 import React from 'react'
 import { API_URL } from '../Config/Config';
 import { configs } from 'eslint-plugin-react-refresh';
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContex } from '../Contexts/Usercontex';
@@ -9,6 +9,7 @@ import { UserContex } from '../Contexts/Usercontex';
 const Create = () => {
     const { username, setUsername } = useContext(UserContex)
     const navigate = useNavigate();
+    const ref = useRef();
     const [form, setForm] = useState({ username: "", email: "", password: "" })
     function HandleChange(e) {
         setForm((prevDate => ({
@@ -18,15 +19,29 @@ const Create = () => {
     }
 
     async function CreateUser(data) {
+        const originalContaion = ref.current.innerHTML;
         try {
-            const response = await axios.post(`${API_URL}/user`, data);
+            if(ref.current){
+                ref.current.style.opacity = 0.5;
+                ref.current.innerHTML = "<strong><h1>Fetching data..</h1></strong>"
+            }
+            const response = await axios.post(`${API_URL}/user`, data)
             console.log("Date has been sent to server");
             if (response) {
+                 if(ref.current){
+                ref.current.style.opacity = 1;
+                ref.current.innerHTML = originalContaion;
+            }
+
                 navigate(`/home?username=${data.username}`)
                 setUsername(data.username);
             }
 
         } catch (error) {
+               if(ref.current){
+                ref.current.style.opacity = 1;
+                ref.current.innerHTML = originalContaion;
+            }
             console.log(error);
             console.log("Unable to singin");
         }
@@ -53,7 +68,7 @@ const Create = () => {
     return (
 
         <div className='create p-10 h-full w-full flex justify-center items-center bg-[url(./assets/backgroundskill.jpg)] bg-cover bg-center'>
-            <div className='bg-[rgba(255,255,255,0.4)]  h-150 w-100 rounded-lg p-8 hover:scale-105 transition-transform duration-500 '>
+            <div ref={ref} className='bg-[rgba(255,255,255,0.4)]  h-150 w-100 rounded-lg p-8 hover:scale-105 transition-transform duration-500 '>
                 <div className='flex justify-center'>
                     <span className='flex flex-row justify-center items-center h-20 w-70 '><span className='flex flex-row'>
                         <span className="text-4xl font-bold text-green-700 mr-4">&lt;</span>
