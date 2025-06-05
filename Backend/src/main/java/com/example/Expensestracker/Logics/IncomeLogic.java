@@ -29,7 +29,6 @@ public class IncomeLogic {
         return null;
      }
 
-
      public void AddIncomeToUser(Income income, String username){
        Optional<User> user = userRepository.findByUsername(username);
         Income newIncome = incomeRepository.save(income);

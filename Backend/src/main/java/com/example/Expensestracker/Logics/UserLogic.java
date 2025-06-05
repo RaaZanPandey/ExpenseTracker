@@ -41,9 +41,5 @@ public class UserLogic {
     public Optional<User> findByName(String username) {
         return userRepository.findByUsername(username);
     }
-
-    public void CreateUser(Optional<User> user) {
-        userRepository.save(user.get());
-    }
   
 }

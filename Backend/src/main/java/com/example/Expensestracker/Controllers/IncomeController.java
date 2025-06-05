@@ -1,7 +1,5 @@
 package com.example.Expensestracker.Controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Expensestracker.Logics.IncomeLogic;
 import com.example.Expensestracker.Logics.UserLogic;
 import com.example.Expensestracker.Models.Income;
-import com.example.Expensestracker.Models.User;
 
 @RestController
 @RequestMapping("/income")
@@ -44,14 +41,13 @@ public class IncomeController {
  
     @DeleteMapping("/{username}") // DELETE
     public ResponseEntity<?> deleteByExpenses(@RequestBody Income toBeDeleted, @PathVariable String username) {
-        Optional<User> user = userLogic.findByName(username);
+        var user = userLogic.findByName(username);
         var myId = toBeDeleted.getId();
         var exp = incomeLogic.FindIncomeById(myId);
 
         if (exp != null) {
             incomeLogic.DeleteIncomeById(myId);
-            user.get().getIncomes().remove(exp);
-            userLogic.CreateUser(user);
+            user.get().getIncomes().removeIf(x->x.getId().equals(myId));
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("INCOME DELETED SUCCESFULLY");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("INCOME NOT FOUNF");
